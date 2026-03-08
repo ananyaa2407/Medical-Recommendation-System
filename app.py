@@ -15,10 +15,10 @@ X = pd.read_csv("datasets/Training.csv").drop('prognosis', axis=1)
 symptoms_dict = {symptom: index for index, symptom in enumerate(X.columns)}
 Y = pd.read_csv("datasets/training.csv")['prognosis']
 diseases_list = sorted(list(Y.unique()))
+
 # 2. Load Model
 svc = pickle.load(open(r"C:\Users\Ananya\Documents\models\svc.pkl", "rb"))
 
-# --- Paste your get_predicted_value and helper functions here ---
 #model prediction 
 def helper(dis):
     desc = description[description['Disease'] == dis]['Description']
@@ -33,15 +33,14 @@ def helper(dis):
     die = diets[diets['Disease'] == dis]['Diet']
     die = [d for d in die.values]
 
-    # Change the variable on the left to something like 'wrk' or 'wrkout'
     wrk = workout[workout['disease'] == dis]['workout'] 
-    wrkout_list = [w for w in wrk.values] # Use the new variable here too
+    wrkout_list = [w for w in wrk.values] 
 
     return desc, pre, med, die, wrkout_list # Return the new list name
 def get_predicted_value(patient_symptoms):
     input_vector = np.zeros(len(symptoms_dict))
     for item in patient_symptoms:
-        if item in symptoms_dict: # Good to add this check for safety
+        if item in symptoms_dict: 
             input_vector[symptoms_dict[item]] = 1
             
     # Convert to DataFrame to match training format and stop the warning
